@@ -61,6 +61,7 @@ The target is not pixel-perfect copying at any cost. The target is the same info
 - Multi-device validation
 - Gauge, donut, chart, progress arc, and Canvas validation
 - Visual regression failure criteria
+- typography line height, wrapping, and text block height have been visually validated
 
 ## Install
 
