@@ -17,11 +17,8 @@ This Skill guides Cursor to preserve the same product experience instead of mech
 <table>
 
 <tr>
-
-<td><img src="examples/ios-market.jpg" width="380"></td>
-
 <td><img src="examples/android-market.jpg" width="380"></td>
-
+<td><img src="examples/ios-market.jpg" width="380"></td>
 </tr>
 
 </table>
