@@ -49,8 +49,8 @@ The target is not pixel-perfect copying at any cost. The target is the same info
 - SwiftUI → Jetpack Compose migration workflow
 - Visual parity and responsive layout
 - Design token extraction
-- Typography parity
-- Buttons, text fields, cards, and icons
+- typography, line height, and vertical rhythm parity
+- buttons, text fields, cards, and icons
 - Android edge-to-edge and system insets
 - Accessibility and font scaling
 - Localization and RTL
