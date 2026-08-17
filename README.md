@@ -14,9 +14,17 @@ This Skill guides Cursor to preserve the same product experience instead of mech
 
 | iOS Reference | Android with UI Parity Skill |
 
-|---|---|
+<table>
 
-| ![iOS](examples/ios-market.jpg) | ![Android](examples/android-market.jpg) |
+<tr>
+
+<td><img src="examples/ios-market.jpg" width="380"></td>
+
+<td><img src="examples/android-market.jpg" width="380"></td>
+
+</tr>
+
+</table>
 
 reference : ios ATUS AI APP
 ios app link : https://l.threads.com/?u=https%3A%2F%2Fapps.apple.com%2Fkr%2Fapp%2Fatus-ai%2Fid6761884312&e=AUDfwec6gHkbmtHzqvqImtBQzsbiBuJVdJ_0vVtbjsGz-HhBj0b5PmXuXkkDBjwytTO3j7W-TJLEh8l1ZxJ_yhMyPDzz2ZUFHhm0Owm6YFs_0Uj2zHJ_sr7f3I2D_X_P7Dp0uBfQE7Ac
