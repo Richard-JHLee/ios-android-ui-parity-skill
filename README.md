@@ -1,5 +1,8 @@
 # iOS to Android UI Parity Skill
 
+![Version](https://img.shields.io/badge/version-v0.1.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 A Cursor Skill for porting SwiftUI screens to Android Jetpack Compose while preserving product design, visual hierarchy, behavior, accessibility, localization, and cross-platform consistency.
 
 ## Why this exists
