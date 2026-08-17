@@ -1,5 +1,23 @@
 # Changelog
+## [0.1.1] - 2026-08-17
 
+### Added
+
+- Explicit line-height validation for SwiftUI to Jetpack Compose migrations
+- Text vertical rhythm validation
+- Multi-line text parity rules
+- Korean typography validation
+- Font-padding review guidance
+- Typography screenshot comparison criteria
+- Shared typography token guidance
+
+### Improved
+
+- Visual parity checklist now validates line height, paragraph height, wrapping, and baseline alignment
+- Typography parity now considers total text block height instead of font size alone
+- Accessibility validation now includes larger font-scale effects on text layout
+
+  
 ## [0.1.0] - 2026-08-17
 
 ### Added
