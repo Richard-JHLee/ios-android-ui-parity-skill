@@ -305,6 +305,48 @@ They are conceptually similar but not visually identical.
 
 If the product uses a custom font such as Pretendard, use the same font family on Android whenever licensing and project configuration permit.
 
+## Line Height and Text Vertical Rhythm
+
+Matching font size alone is not sufficient for visual parity.
+
+SwiftUI and Jetpack Compose may produce different text block heights because of differences in font metrics, default line spacing, font padding, and platform text rendering.
+
+For every important text style, validate:
+
+- font size
+
+- font weight
+
+- line height
+
+- letter spacing
+
+- baseline alignment
+
+- paragraph spacing
+
+- number of lines
+
+- total text block height
+
+Do not rely only on the default Compose line height when visual parity matters.
+
+Prefer defining line height in reusable typography tokens.
+
+Example:
+
+```kotlin
+
+val BodyMedium = TextStyle(
+
+    fontSize = 15.sp,
+
+    lineHeight = 21.sp,
+
+    fontWeight = FontWeight.Normal
+
+)
+
 ## Accessibility and Font Scale
 
 Visual parity must not break accessibility.
