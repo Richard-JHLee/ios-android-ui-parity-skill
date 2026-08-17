@@ -12,7 +12,7 @@ A SwiftUI screen can be functionally reproduced in Jetpack Compose and still loo
 This Skill guides Cursor to preserve the same product experience instead of mechanically translating framework components.
 ## Before / After
 
-| iOS Reference | Android with UI Parity Skill |
+| iOS Reference -> before | Android with UI Parity Skill -> after |
 
 <table>
 
