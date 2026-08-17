@@ -22,3 +22,22 @@
 - [ ] Screenshot compared with iOS reference
 - [ ] Compact and standard widths reviewed
 - [ ] Intentional platform differences documented
+      
+## Typography
+
+- [ ] Font family matches the design intent
+- [ ] Font size is visually consistent
+- [ ] Font weight is visually consistent
+- [ ] Line height is visually consistent
+- [ ] Letter spacing is visually consistent
+- [ ] Multi-line text height matches the reference intent
+- [ ] Title-to-body spacing matches the reference intent
+- [ ] Paragraph spacing is visually consistent
+- [ ] Text wrapping occurs at an appropriate position
+- [ ] Baselines align correctly with nearby icons and numbers
+- [ ] Korean text has sufficient vertical breathing room
+- [ ] Mixed Korean, English, and numeric text renders correctly
+- [ ] Text does not clip at the top or bottom
+- [ ] Larger font scale does not cause clipping or overlap
+- [ ] Typography does not unintentionally change Card height
+
