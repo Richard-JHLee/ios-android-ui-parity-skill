@@ -10,6 +10,16 @@ A Cursor Skill for porting SwiftUI screens to Android Jetpack Compose while pres
 A SwiftUI screen can be functionally reproduced in Jetpack Compose and still look or feel noticeably different. Common causes include different default padding, typography metrics, component defaults, icon geometry, system insets, Canvas constraints, device-size variation, font scaling, localization, and RTL behavior.
 
 This Skill guides Cursor to preserve the same product experience instead of mechanically translating framework components.
+## Before / After
+
+| iOS Reference | Android with UI Parity Skill |
+
+|---|---|
+
+| ![iOS](assets/examples/ios-market.jpg) | ![Android](assets/examples/android-market.jpg) |
+
+reference : ios ATUS AI APP
+ios app link : https://l.threads.com/?u=https%3A%2F%2Fapps.apple.com%2Fkr%2Fapp%2Fatus-ai%2Fid6761884312&e=AUDfwec6gHkbmtHzqvqImtBQzsbiBuJVdJ_0vVtbjsGz-HhBj0b5PmXuXkkDBjwytTO3j7W-TJLEh8l1ZxJ_yhMyPDzz2ZUFHhm0Owm6YFs_0Uj2zHJ_sr7f3I2D_X_P7Dp0uBfQE7Ac
 
 ## Core goal
 
