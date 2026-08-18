@@ -62,6 +62,9 @@ Create a compactness budget before implementation:
 | Hero block height | measured | within ±8% |
 | Action card height | measured | within ±8% |
 | Repeated tile height | measured | within ±8% |
+| Card fill color | measured | same iOS card fill, light and dark |
+| Card corner radius | measured | within ±1dp equivalent |
+| Card outer shadow | measured | same presence, softness, and offset |
 | Shared content above fold | recorded sections | same sections visible |
 | Total shared-content height | measured | within ±8% |
 
@@ -710,26 +713,80 @@ Cards and Panels
 
 Do not introduce Material Card automatically.
 
-If the iOS view is simply:
+If the iOS view is a product card such as `.cardStyle()`, a grouped section, or a screenshot card with fill, corner radius, border, and outer shadow, reproduce that chrome in Compose. Do not substitute Material Card defaults.
 
-background
-+
-border
-+
-radius
+iOS Card Chrome Mapping
 
-implement exactly that using Compose modifiers.
+Measure the iOS card from the screenshot and SwiftUI implementation before coding:
 
-Example:
+- page or grouped background behind the card
+- card fill color (light and dark)
+- corner radius and corner style (continuous vs circular)
+- border or separator color and width
+- outer shadow color, opacity, blur/radius, and y offset
+- inner padding
+- whether nested inner cards use the same fill or a distinct fill
 
-Modifier
-    .clip(RoundedCornerShape(12.dp))
-    .background(AppColors.Surface)
-    .border(
-        width = 1.dp,
-        color = AppColors.Border,
-        shape = RoundedCornerShape(12.dp)
-    )
+Do not hard-code white, gray, or Material `surfaceVariant` as the card fill.
+
+Match the iOS card fill. Typical iOS product cards use `secondarySystemGroupedBackground` (or an equivalent product token) on a `systemGroupedBackground` page. That fill is often light in light mode and dark in dark mode. Copy the actual iOS color, not a guessed white card.
+
+Do not flatten the card by dropping the outer shadow. If iOS uses `.shadow(...)` around the card, Android must show a comparable outer shadow. Material Card with `defaultElevation = 0.dp` is not a substitute.
+
+Do not use a gray-tinted Material Card (`surfaceVariant` alpha overlays, tonal containers) when the iOS card fill is the grouped card surface.
+
+Compose the outer card with modifiers, not Material Card, unless the existing project already has a matching card chrome helper:
+
+```kotlin
+val cardShape = RoundedCornerShape(14.dp) // use the measured iOS radius
+
+Column(
+    modifier = Modifier
+        .fillMaxWidth()
+        .shadow(elevation = 4.dp, shape = cardShape) // match iOS shadow presence
+        .background(cardFill, cardShape)             // match iOS card fill, not Color.White
+        .border(
+            width = 0.5.dp,                          // match iOS separator/stroke
+            color = cardStroke,
+            shape = cardShape,
+        )
+        .padding(16.dp),                             // match iOS card padding
+) {
+    // card content
+}
+```
+
+Rules:
+
+1. Card fill comes from the iOS reference, not from Material Card containerColor.
+2. Page background and card fill must remain distinct when the iOS reference shows that contrast. If the page is grouped gray and the card is the grouped card surface, keep that relationship so the outer shadow is visible.
+3. Corner radius comes from the iOS reference. Do not replace 14pt continuous corners with Material 16dp or 28dp defaults.
+4. Outer shadow is part of the product chrome when present on iOS. Preserve softness and offset; do not replace it with a heavy Material elevation or remove it.
+5. Border or separator is part of the chrome when present on iOS. Match width and color.
+6. Nested inner blocks (KPI inset, banners) keep the iOS inner fill and stroke. Do not add a second Material Card tint that the reference does not have.
+7. Dark mode must follow the iOS card fill and page fill, not a hardcoded light-mode color.
+8. Do not enlarge card padding or add extra nested surfaces to invent Material depth that iOS does not use.
+
+Card Chrome Validation
+
+Before marking a carded screen complete, verify against the iOS screenshot:
+
+- page background matches the iOS grouped or product page fill
+- card interior fill matches the iOS card fill in the current theme
+- corner radius matches
+- outer shadow is present when iOS shows it, and absent when iOS does not
+- border or separator matches
+- nested inner cards do not introduce extra gray Material tints
+- the card still reads as a card on the page; it is not a flat full-bleed Material surface
+
+Failure conditions:
+
+- Android uses Material `surfaceVariant` or a gray overlay while iOS uses the grouped card surface
+- Android hard-codes white while iOS uses a different card fill, especially in dark mode
+- Android has no outer shadow while iOS `.cardStyle()` or the screenshot shows one
+- Android uses Material elevation that looks heavier or flatter than the iOS shadow
+- Android corner radius visibly differs from iOS
+- inner KPI or metric blocks become a second gray card that does not exist on iOS
 
 Icons
 
@@ -1791,6 +1848,10 @@ button heights
 
 card dimensions
 
+card fill color
+
+card outer shadow
+
 icon positions
 
 corner radii
@@ -1869,6 +1930,12 @@ Font weights match
 Line heights are visually consistent
 
 Colors match
+
+Card fill matches the iOS card color, not a hardcoded white or Material gray tint
+
+Card outer shadow matches the iOS card chrome
+
+Page background and card fill keep the iOS contrast relationship
 
 Corner radii match
 
@@ -2109,6 +2176,8 @@ No component introduces more than 4dp unexplained local vertical drift, and cumu
 Interactive hit targets meet Android accessibility expectations without unnecessarily enlarging visible controls, cards, or section spacing.
 
 Typography and line height were derived from the screenshot rather than accepted from Material defaults.
+
+Card chrome matches iOS: fill color, corner radius, border, and outer shadow. Card fill is the iOS card color, not a hardcoded white or Material Card tint.
 
 No unnecessary Material styling has been introduced.
 
