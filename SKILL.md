@@ -36,6 +36,39 @@ Core Principle
 
 Preserve the product design, not the framework defaults.
 
+Visual parity includes information density, not only colors, shapes, and section order.
+
+If Android shows materially less of the same content above the fold than the iOS reference, parity has failed even when individual components look similar.
+
+Compactness and Information-Density Parity
+
+Before coding, measure the iOS reference and Android screenshot at comparable content widths:
+
+- content horizontal margins
+- visible font size, weight, and line height
+- text block height and wrapping
+- vertical gaps between rows and sections
+- card padding, corner radius, and visible height
+- grid row height
+- visible button and icon dimensions
+- amount of shared content visible above the fold
+- total height between shared visual anchors
+
+Create a compactness budget before implementation:
+
+| Metric | iOS reference | Android target |
+|---|---:|---:|
+| Horizontal content margin | measured | within ±2dp equivalent |
+| Hero block height | measured | within ±8% |
+| Action card height | measured | within ±8% |
+| Repeated tile height | measured | within ±8% |
+| Shared content above fold | recorded sections | same sections visible |
+| Total shared-content height | measured | within ±8% |
+
+Use the budget as a validation constraint, not optional documentation.
+
+Do not declare completion while Android is visibly taller, looser, or shows less shared content than iOS without a documented accessibility or platform requirement.
+
 Do not blindly translate:
 
 SwiftUI Button to Material Button
@@ -461,15 +494,87 @@ Check:
 Rules:
 
 1. Do not force text into fixed-height containers when text may scale.
-2. Do not reduce font size automatically just to preserve screenshot geometry.
+2. Do not reduce font size automatically before checking parent constraints, line height, and font padding. If Material defaults make Android text visibly larger than the reference, an explicit screenshot-derived smaller text token is a valid parity correction.
 3. Allow important text to wrap when practical.
-4. Keep interactive targets large enough for Android accessibility expectations.
+4. Keep interactive hit regions large enough for Android accessibility expectations without inflating their visible chrome.
 5. Add meaningful contentDescription values where required.
 6. Decorative images should not create unnecessary screen reader noise.
 7. Preserve semantic grouping and heading intent.
 8. Accessibility requirements take priority over exact pixel parity.
 
 If the design cannot support larger font scales without layout changes, document the intentional responsive behavior.
+
+Touch Target Without Visual Inflation
+
+A 48dp Android touch target does not require 48dp visible chrome.
+
+For compact controls:
+
+- preserve the reference icon, label, border, and visible row dimensions
+- provide the Android hit target with a transparent parent container
+- center the compact visible control inside the larger hit region
+- do not increase card padding, section spacing, or visible button height solely to reach 48dp
+- do not apply minimum touch height to non-interactive cards, labels, metric tiles, dividers, or text rows
+- keep disabled controls visually compact while preserving clear disabled semantics
+
+Example:
+
+```kotlin
+Box(
+    modifier = Modifier
+        .size(48.dp)
+        .clickable { onClick() },
+    contentAlignment = Alignment.Center
+) {
+    Icon(
+        imageVector = icon,
+        contentDescription = label,
+        modifier = Modifier.size(14.dp)
+    )
+}
+```
+
+Screenshot-Derived Typography
+
+Do not map SwiftUI text styles directly to Material typography styles.
+
+For each visible text role, record:
+
+- apparent font size
+- font weight
+- line height
+- number of lines
+- text block height
+- truncation behavior
+
+Explicitly compare Korean glyph placement and numeric baselines.
+
+Material typography is not a minimum size requirement. When the screenshot is more compact, use explicit screen tokens rather than retaining an oversized Material default.
+
+Initial compact token candidates may use:
+
+- caption: 11sp with 14sp line height
+- compact body: 13sp with 18sp line height
+- section title: 15sp with 20sp line height
+- screen title: 20sp with 26sp line height
+
+These are starting points only. Confirm them against screenshot measurements and the product font.
+
+No Material Density Expansion
+
+Do not use Material Card, Button, OutlinedButton, ListItem, or default typography when their intrinsic padding or minimum dimensions make Android larger than the iOS reference.
+
+For screenshot-parity screens:
+
+- build compact visual containers with Box, Row, and Column when needed
+- specify visible padding, radius, line height, and icon size intentionally
+- use a transparent hit container around compact interactive chrome
+- avoid nested surface backgrounds unless they exist in the reference
+- avoid 16dp padding as an automatic default
+- avoid 24dp icons when the reference uses caption-sized 12–16dp icons
+- avoid adding vertical space for Android visual conventions absent from the reference
+
+Android-native interaction behavior is required; Android-default visual density is not.
 
 ## Localization and RTL
 
@@ -1698,6 +1803,37 @@ chart position and size
 
 Canvas clipping or overlap
 
+Density Validation — Mandatory
+
+Place the screenshots side by side or overlay them at the same content width.
+
+Record these shared vertical anchors where present:
+
+1. hero top
+2. metadata top
+3. decomposition or evidence bar top
+4. action card top and bottom
+5. first section title
+6. first repeated grid row bottom
+
+For each anchor, record cumulative vertical drift:
+
+- more than 4dp drift introduced by one component: inspect that component locally
+- more than 12dp cumulative drift: parity failure
+- more than 8% shared-content height difference: parity failure
+- fewer shared sections visible above the fold: parity failure
+
+Fix density mismatches in this order:
+
+1. screenshot-derived font size and line height
+2. unnecessary text wrapping
+3. visible control dimensions
+4. card padding
+5. section spacing
+6. outer margins
+
+Do not compensate for cumulative drift with offsets.
+
 score and label alignment
 
 bottom insets
@@ -1963,6 +2099,16 @@ Core interactions work.
 Loading, success, empty, and error states behave correctly.
 
 Android visual output closely matches the iOS reference.
+
+Android shows the same shared sections above the fold as the comparable iOS reference, unless a documented accessibility or platform constraint prevents it.
+
+Shared-content height is within the compactness budget, normally ±8% of the iOS reference.
+
+No component introduces more than 4dp unexplained local vertical drift, and cumulative anchor drift stays within 12dp.
+
+Interactive hit targets meet Android accessibility expectations without unnecessarily enlarging visible controls, cards, or section spacing.
+
+Typography and line height were derived from the screenshot rather than accepted from Material defaults.
 
 No unnecessary Material styling has been introduced.
 
